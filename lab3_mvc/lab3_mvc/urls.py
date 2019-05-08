@@ -19,7 +19,8 @@ from app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('patient/<int:patient_id>',views.patient_page)
+    path('patient/<int:patient_id>',views.patient_page),
+    path('read/', views.read_csv_file)
 ]
 
 
