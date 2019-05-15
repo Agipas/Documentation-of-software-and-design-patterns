@@ -83,9 +83,6 @@ def read_csv_file(request):
             treat.save()
             treat.procedureID.add()
             treat.procedureID.add(procedures)
-            # for procedure in procedures:
-                # treatment_data = Treatment.objects.get(patientID=Patient.objects.get(id=treatment_detail[0]),
-                #                                    date=treatment_detail[2])
-                # treat.procedureID.add(procedure)
+
 
     return HttpResponse('<html><h1>SUCCESS</h1></html>')

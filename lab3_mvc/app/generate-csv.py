@@ -57,7 +57,6 @@ class CsvGenerator:
         file.write('\nDoctors\n')
         for doctor in self.doctors_names:
             tel = random.randint(100000000, 999999999)
-            # worker_project = self.projects[random.randint(0, len(self.doctors_names) - 1)]
             doctor_address = self.address[random.randint(0, len(self.address) - 1)]
             doctor_specialization = self.specialization[random.randint(0, len(self.specialization) - 1)]
             department_id = random.randint(1, len(self.departments) - 1)
