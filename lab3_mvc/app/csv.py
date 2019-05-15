@@ -6,8 +6,8 @@ class CsvGenerator:
     Csv file Generator
     """
     file_name = 'generated.csv'
-    names = ['Ivan', 'Petro', 'Vasyul', 'Oleg', 'Anton', 'Igor', 'Venedukt']
-    departament = ['Сleaners', 'Surgeons', 'Brackets', 'Olegov', 'Antonov', 'Igorov', 'Veneduktov']
+    first_names = ['Ivan', 'Petro', 'Vasyul', 'Oleg', 'Anton', 'Igor', 'Venedukt']
+    last_names = ['Ivanov', 'Petrov', 'Pupkin', 'Olegov', 'Antonov', 'Igorov', 'Veneduktov']
 
     compensations = ['Base Pay', 'Merit Pay', 'Commissions', 'Overtime Pay', 'Bonuses', 'Travel Allowance',
                      'Meal Allowance', 'Stock Options', 'Vacation Pay', 'Leaves Pay']
@@ -50,7 +50,7 @@ class CsvGenerator:
         file.write('\nWorkers\n')
         for i in range(1, self.workers_count + 1):
             worker_project = self.projects[random.randint(0, len(self.projects) - 1)]
-            worker_first_name = self.names[random.randint(0, len(self.names) - 1)]
+            worker_first_name = self.first_names[random.randint(0, len(self.first_names) - 1)]
             worker_last_name = self.last_names[random.randint(0, len(self.last_names) - 1)]
             file.write('{first_name},{last_name},{projects}\n'.format(first_name=worker_first_name,
                                                                       last_name=worker_last_name,

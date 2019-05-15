@@ -28,48 +28,64 @@ def read_csv_file(request):
     file_path = os.path.join(module_dir, 'generated.csv')
     with open(file_path, 'r+') as file:
         buffer = file.read()
-        first = re.split(r'Compensations\n', buffer)[1]
-        sec = re.split(r'.*\n\nProjects\n', first)[0]
-        compensations = sec.split('\n')
-        for compensation in compensations:
-            if compensation!='':
-                Compensation.objects.get_or_create(
-                    type=compensation
-                )
+        first = re.split(r'Departments\n', buffer)[1]
+        sec = re.split(r'.*\nProcedures\n', first)[0]
+        departments = sec.split('\n')
+        for department in departments:
+            if department != '':
+                Department.objects.get_or_create(name=department)
 
-        first = re.split(r'Projects\n', buffer)[1]
-        sec = re.split(r'.*\nWorkers\n', first)[0]
-        projects = sec.split('\n')
-        for project in projects:
-            if project!='':
-                Project.objects.get_or_create(
-                    name=project
-                )
+    first = re.split(r'Procedures\n', buffer)[1]
+    sec = re.split(r'.*\nDoctors\n', first)[0]
+    procedures = sec.split('\n')
+    for procedure in procedures:
+        if procedure != '':
+            procedure_detail = procedure.split(',')
+            Procedure.objects.get_or_create(name=procedure_detail[0],
+                                            price=procedure_detail[1])
 
-    first = re.split(r'Workers\n', buffer)[1]
-    sec = re.split(r'.*\n\nWorkers compensations\n', first)[0]
-    workers = sec.split('\n')
-    for worker in workers:
-        if worker != '':
-            worker_details = worker.split(',')
-            worker_project = Project.objects.get(name=worker_details[2])
-            worker = Worker(
-                first_name=worker_details[0],
-                last_name=worker_details[1],
-            )
-            worker.save()
-            worker.projects.add(worker_project)
+    first = re.split(r'Doctors\n', buffer)[1]
+    sec = re.split(r'.*\nPatients\n', first)[0]
+    doctors = sec.split('\n')
+    for doctor in doctors:
+        if doctor != '':
+            doctor_detail = doctor.split(',')
+            Doctor.objects.get_or_create(name=doctor_detail[0],
+                                         tel=doctor_detail[1],
+                                         address=doctor_detail[2],
+                                         specialization=doctor_detail[3],
+                                         departmentID=Department.objects.get(id=int(doctor_detail[4])))
 
-    first = re.split(r'Workers compensations\n', buffer)[1]
-    workers_compensations = first.split('\n')
-    for worker_compensation in workers_compensations:
-        if worker_compensation != '':
-            worker_compensation_detail = worker_compensation.split(',')
+    first = re.split(r'Patients\n', buffer)[1]
+    sec = re.split(r'.*\nTreatments\n', first)[0]
+    patients = sec.split('\n')
+    for patient in patients:
+        if patient != '':
+            patient_detail = patient.split(',')
             try:
-                WorkerCompensation.objects.get_or_create(worker_id=worker_compensation_detail[0],
-                                                         compensation_type_id=worker_compensation_detail[1],
-                                                         amount=worker_compensation_detail[2])
+                Patient.objects.get_or_create(name=patient_detail[0],
+                                              tel=patient_detail[1],
+                                              address=patient_detail[2],
+                                              age=patient_detail[3],
+                                              sex=patient_detail[4],
+                                              doctorID=Doctor.objects.get(id=patient_detail[5]))
             except:
                 pass
+
+    first = re.split(r'Treatments\n', buffer)[1]
+    treatments = first.split('\n')
+    for treatment in treatments:
+        if treatment != '':
+            treatment_detail = treatment.split(',')
+            procedures = Procedure.objects.get(id=treatment_detail[1])
+            treat = Treatment(patientID=Patient.objects.get(id=treatment_detail[0]),
+                              date=treatment_detail[2])
+            treat.save()
+            treat.procedureID.add()
+            treat.procedureID.add(procedures)
+            # for procedure in procedures:
+                # treatment_data = Treatment.objects.get(patientID=Patient.objects.get(id=treatment_detail[0]),
+                #                                    date=treatment_detail[2])
+                # treat.procedureID.add(procedure)
 
     return HttpResponse('<html><h1>SUCCESS</h1></html>')

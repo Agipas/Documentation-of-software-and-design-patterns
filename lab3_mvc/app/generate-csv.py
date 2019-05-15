@@ -1,4 +1,5 @@
 import random
+from datetime import date
 
 
 class CsvGenerator:
@@ -6,71 +7,102 @@ class CsvGenerator:
     Csv file Generator
     """
     file_name = 'generated.csv'
-    first_names = ['Ivan', 'Petro', 'Vasyul', 'Oleg', 'Anton', 'Igor', 'Venedukt']
-    last_names = ['Ivanov', 'Petrov', 'Pupkin', 'Olegov', 'Antonov', 'Igorov', 'Veneduktov']
 
-    compensations = ['Base Pay', 'Merit Pay', 'Commissions', 'Overtime Pay', 'Bonuses', 'Travel Allowance',
-                     'Meal Allowance', 'Stock Options', 'Vacation Pay', 'Leaves Pay']
+    procedure_names = ['Cleaning', 'Tooth extraction', 'Bracket insertion', 'Whitening', 'X-ray', 'Review',
+                       'Tooth Restoration']
 
-    projects = ['Machine learning', 'AI', 'Data Science', 'Web (Front-end)', 'Web(Back-end)',
-                'Computer vision', 'AR/VR', 'Mobile', 'Desktop', 'Game Development', 'Cloud computing',
-                'Computing networks', 'Administrative', 'Cryptography', 'Big Data']
-    workers_count = 400
-    compensations_count = 600
+    departments = ['Cleaners', 'Surgeons', 'Brackets', "Childrens_dentist"]
 
-    def populate_compensations(self, file):
+    doctors_names = ['Ivan', 'Petro', 'Vasyul', 'Oleg', 'Anton', 'Igor', 'Venedukt']
+    address = ['Lviv', 'Kyev', 'Khmelnitskyi', 'Ternopil', 'Zakarpattia', 'Donetsk']
+    specialization = ['Dentist', 'Surgeon', 'Cleaner']
+
+    patient_names = ['Anton', 'Dima', 'Vova', 'Bogdan', 'Bob', 'Jek', 'John']
+    patient_address = ['Moscow', 'Tokyo', 'London', 'Ternopil', 'Rivne', 'Donetsk']
+
+    patient_count = 200
+    treatments_count = 800
+
+    def populate_department(self, file):
         """
-        Populate compensation type into csv file
+        Populate Department type into csv file
 
         :param file: csv file
         :return:
         """
-        file.write('Compensations\n')
-        for compensation in self.compensations:
-            file.write('{type}\n'.format(type=compensation))
+        file.write('Departments\n')
+        for department in self.departments:
+            file.write('{name}\n'.format(name=department))
 
-    def populate_projects(self, file):
+    def populate_procedure(self, file):
         """
-        Populate projects names into csv file
-
-        :param file: csv file
-        :return:
-        """
-        file.write('\nProjects\n')
-        for project in self.projects:
-            file.write('{name}\n'.format(name=project))
-
-    def populate_workers(self, file):
-        """
-        Populate workers into csv file
+        Populate Procedure names into csv file
 
         :param file: csv file
         :return:
         """
-        file.write('\nWorkers\n')
-        for i in range(1, self.workers_count + 1):
-            worker_project = self.projects[random.randint(0, len(self.projects) - 1)]
-            worker_first_name = self.first_names[random.randint(0, len(self.first_names) - 1)]
-            worker_last_name = self.last_names[random.randint(0, len(self.last_names) - 1)]
-            file.write('{first_name},{last_name},{projects}\n'.format(first_name=worker_first_name,
-                                                                      last_name=worker_last_name,
-                                                                      projects=worker_project))
+        file.write('\nProcedures\n')
+        for procedure in self.procedure_names:
+            price = random.randint(100, 500)
+            file.write('{name},{price}\n'.format(name=procedure,
+                                                 price=price))
 
-    def populate_workers_compensations(self, file):
+    def populate_doctor(self, file):
         """
-        Populate workers compensations into csv file
+        Populate Doctor into csv file
 
         :param file: csv file
         :return:
         """
-        file.write('\nWorkers compensations\n')
-        for i in range(1, self.compensations_count + 1):
-            worker_id = random.randint(1, self.workers_count + 1)
-            compensation_id = random.randint(1, len(self.compensations)-1)
-            amount = random.randint(0, 5000)
-            file.write('{worker_id},{compensation_id},{amount}\n'.format(worker_id=worker_id,
-                                                                         compensation_id=compensation_id,
-                                                                         amount=amount))
+        file.write('\nDoctors\n')
+        for doctor in self.doctors_names:
+            tel = random.randint(100000000, 999999999)
+            # worker_project = self.projects[random.randint(0, len(self.doctors_names) - 1)]
+            doctor_address = self.address[random.randint(0, len(self.address) - 1)]
+            doctor_specialization = self.specialization[random.randint(0, len(self.specialization) - 1)]
+            department_id = random.randint(1, len(self.departments) - 1)
+            file.write('{name},{tel},{address},{specialization},{departmentID}\n'.format(name=doctor,
+                                                                                         tel='0' + str(tel),
+                                                                                         address=doctor_address,
+                                                                                         specialization=doctor_specialization,
+                                                                                         departmentID=department_id))
+
+    def populate_patient(self, file):
+        """
+        Populate Patient into csv file
+
+        :param file: csv file
+        :return:
+        """
+        file.write('\nPatients\n')
+        for i in range(1, self.patient_count + 1):
+            tel = random.randint(100000000, 999999999)
+            age = random.randint(18, 60)
+            patient_names = self.patient_names[random.randint(0, len(self.patient_names) - 1)]
+            patient_address = self.patient_address[random.randint(0, len(self.patient_address) - 1)]
+            doctor_id = random.randint(1, len(self.doctors_names) - 1)
+            file.write('{name},{tel},{address},{age},{sex},{doctorID}\n'.format(name=patient_names,
+                                                                                tel='0' + str(tel),
+                                                                                address=patient_address,
+                                                                                age=age,
+                                                                                sex='male',
+                                                                                doctorID=doctor_id))
+
+    def populate_treatment(self, file):
+        """
+        Populate Treatments compensations into csv file
+
+        :param file: csv file
+        :return:
+        """
+        file.write('\nTreatments\n')
+        for i in range(1, self.treatments_count + 1):
+            patient_id = random.randint(1, self.patient_count)
+            procedure_id = random.randint(1, len(self.procedure_names))
+            day = random.randint(1, 28)
+            file.write('{patientID},{procedureID},{date}\n'.format(patientID=patient_id,
+                                                                   procedureID=procedure_id,
+                                                                   date='2019-03-' + str(day)))
 
     def generate_csv(self):
         """
@@ -79,10 +111,11 @@ class CsvGenerator:
         :return:
         """
         with open(self.file_name, 'w') as file:
-            self.populate_compensations(file)
-            self.populate_projects(file)
-            self.populate_workers(file)
-            self.populate_workers_compensations(file)
+            self.populate_department(file)
+            self.populate_procedure(file)
+            self.populate_doctor(file)
+            self.populate_patient(file)
+            self.populate_treatment(file)
 
 
 if __name__ == '__main__':
