@@ -62,5 +62,5 @@ You can use the convenience script packaged with kafka to get a quick-and-dirty 
     > redis-cli
     127.0.0.1:6379 > del https://data.cityofnewyork.us/resource/uvxr-2jwn.json
 ```
- - Repeat [Step 6](https://github.com/Agipas/Documentation-of-software-and-design-patterns/new/lab4?readme=1#step-6-get-data-to-terminalkafka)
+ - Repeat [Step 6](https://github.com/Agipas/Documentation-of-software-and-design-patterns/tree/lab4/lab4#step-6-get-data-to-terminalkafka)
 
